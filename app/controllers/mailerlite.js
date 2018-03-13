@@ -71,20 +71,19 @@ const mailer = {
         try {
                 let apikey = await apihelper.getapi();
                 let data = req.body
-                let calcgroup = await Calcgroup.findOne({calcPid:data.calcPid},{mlgid:1});
+                let calcgroup = await Calcgroup.findOne({parentapp:data.parentapp},{mlgid:1});
                 let reqs = await request('https://api.mailerlite.com/api/v2/groups/'+calcgroup.mlgid+'/subscribers', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json',
                         'X-MailerLite-ApiKey': apikey.mlapikey
                     },
-                    data: data
+                    data: data.lead
                 });
                 let logdata = {
                     request:JSON.stringify(data),
                         response:reqs.body
                 }
-                console.log(logdata,"-------")
                 let log = new Log(logdata);
                 await log.save();
                 res.status(200).json(reqs.body);
