@@ -71,6 +71,8 @@ const mailer = {
         try {
                 let apikey = await apihelper.getapi();
                 let data = req.body
+                let lead = data.lead;
+                lead['fields'] = data.lead;
                 let calcgroup = await Calcgroup.findOne({parentapp:data.parentapp},{mlgid:1});
                 let reqs = await request('https://api.mailerlite.com/api/v2/groups/'+calcgroup.mlgid+'/subscribers', {
                     method: 'POST',
