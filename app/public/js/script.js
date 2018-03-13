@@ -31,6 +31,7 @@ $(document).ready(function(){
         });
         // $.post("http://localhost:3001/changekey",{mlapikey: mlapikey,ogapikey:ogapikey}, function (data){
         //     $("#changekey").attr('value', 'submit').attr('disabled', false);
+        //     window.location.reload();
         // });
     });
     deleteGroupAppLink = (item) => {
