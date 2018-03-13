@@ -75,6 +75,7 @@ const mailer = {
                 lead['fields'] = data;
                 let calcgroup = await Calcgroup.findOne({parentapp:data.appId, active: true},{mlgid:1});
                 if(calcgroup) {
+                    console.log('^^^^^^^^^^^^^^^^^^^^^^^', calcgroup);
                     let reqs = await request('https://api.mailerlite.com/api/v2/groups/'+calcgroup.mlgid+'/subscribers', {
                         method: 'POST',
                         headers: {
