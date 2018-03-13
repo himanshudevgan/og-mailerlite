@@ -73,6 +73,7 @@ const mailer = {
                 let data = req.body
                 let lead = JSON.parse(JSON.stringify(data));
                 lead['fields'] = data;
+                console.log('^^^^^^^^^^^^^^^^^^^^^^^', data);
                 let calcgroup = await Calcgroup.findOne({parentapp:data.appId, active: true},{mlgid:1});
                 if(calcgroup) {
                     console.log('^^^^^^^^^^^^^^^^^^^^^^^', calcgroup);
