@@ -3,7 +3,8 @@ const request = require('async-request')
 // const mlapikey = process.env.mlapikey;
 // const ogapikey= process.env.ogapikey;
 const https = require('https');
-const Calcgroup = require('./../models/calcgroup');
+const Calcgroup = require('./../models/calcgroup')
+const Log = require('./../models/log');
 const Apikey = require('./../models/apikey');
 const apihelper = require('./../helper/api');
 
@@ -77,6 +78,12 @@ const mailer = {
                     },
                     data: data.lead
                 });
+                let logdata = {
+                    request:data,
+                    response:reqs.body
+                }
+                let log = new Log(data);
+                await log.save();
                 res.status(200).json(reqs.body);
             } catch (error) {
                 console.log(error)
