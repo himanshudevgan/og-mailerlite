@@ -9,7 +9,7 @@ $(document).ready(function(){
         const parentapp = calc[2];
         $("#btnMapGC").attr('value', 'Please Wait...').attr('disabled', true);
 
-        $.post("http://localhost:3001/link",{calcid: calcId,mlgid: mlgid, groupname: gname, url: URL,parentapp:parentapp}, function (data){
+        $.post("https://og-mailerlite.herokuapp.com/link",{calcid: calcId,mlgid: mlgid, groupname: gname, url: URL,parentapp:parentapp}, function (data){
             $("#btnMapGC").attr('value', 'Map').attr('disabled', false);
             console.log('************', data);
         });
@@ -21,7 +21,7 @@ $(document).ready(function(){
         mlapikey=mlkey;
         ogapikey=ogkey;
         $("#changekey").attr('value', 'Please Wait...').attr('disabled', true);
-        $.post("http://localhost:3001/changekey",{mlapikey: mlapikey,ogapikey:ogapikey}, function (data){
+        $.post("https://og-mailerlite.herokuapp.com/changekey",{mlapikey: mlapikey,ogapikey:ogapikey}, function (data){
             $("#changekey").attr('value', 'submit').attr('disabled', false);
             console.log('************', data);
         });
