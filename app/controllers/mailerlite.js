@@ -71,28 +71,31 @@ const mailer = {
         try {
                 let apikey = await apihelper.getapi();
                 let data = req.body
-                let lead = JSON.parse(JSON.stringify(data.lead));
-                lead['fields'] = req.body.lead;
-                let calcgroup = await Calcgroup.findOne({parentapp:data.parentapp},{mlgid:1});
-                if(calcgroup) {
-                    let reqs = await request('https://api.mailerlite.com/api/v2/groups/'+calcgroup.mlgid+'/subscribers', {
-                        method: 'POST',
-                        headers: {
-                            'content-type': 'application/json',
-                            'X-MailerLite-ApiKey': apikey.mlapikey
-                        },
-                        data: lead
-                    });
-                    let logdata = {
-                        request:JSON.stringify(data),
-                            response:reqs.body
-                    }
-                    let log = new Log(logdata);
-                    await log.save();
-                    res.status(200).json(reqs.body);
-                } else {
-                    res.status(200).json({message: "nothing was serve"});
-                }
+                console.log('********************');
+                console.log(data);
+                console.log('********************');
+                // let lead = JSON.parse(JSON.stringify(data.lead));
+                // lead['fields'] = req.body.lead;
+                // let calcgroup = await Calcgroup.findOne({parentapp:data.parentapp},{mlgid:1});
+                // if(calcgroup) {
+                //     let reqs = await request('https://api.mailerlite.com/api/v2/groups/'+calcgroup.mlgid+'/subscribers', {
+                //         method: 'POST',
+                //         headers: {
+                //             'content-type': 'application/json',
+                //             'X-MailerLite-ApiKey': apikey.mlapikey
+                //         },
+                //         data: lead
+                //     });
+                //     let logdata = {
+                //         request:JSON.stringify(data),
+                //             response:reqs.body
+                //     }
+                //     let log = new Log(logdata);
+                //     await log.save();
+                //     res.status(200).json(reqs.body);
+                // } else {
+                    res.status(200).json({message: "nothing was serve just testing"});
+                // }
             } catch (error) {
                 console.log(error)
             }
