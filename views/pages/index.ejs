@@ -1,74 +1,104 @@
 <% contentFor('body') %>
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <form>
-                <div class="row">
-                    <div class="col-md-6">
-                        <% if(groups !== null && groups.length > 0){ %>
-                            <select class="form-control" name="group" id="group">
-                                <option value="">Groups</option>
-                                <% for(let i = 0; i < groups.length; i++) { %>
-                                    <option value="<%= groups[i].id %>;<%= groups[i].name %>"><%= groups[i].name %></option>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <form>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <% if(groups !== null && groups.length > 0){ %>
+                                <select class="form-control" name="group" id="group">
+                                    <option value="">Groups</option>
+                                    <% for(let i = 0; i < groups.length; i++) { %>
+                                        <option value="<%= groups[i].id %>;<%= groups[i].name %>">
+                                            <%= groups[i].name %>
+                                        </option>
+                                        <% } %>
+                                </select>
                                 <% } %>
-                            </select>
-                        <% } %>
-                    </div>
-                    <div class="col-md-6">
-                        <% if(calcs !== null && calcs.length > 0){ %>
-                            <select class="form-control" name="calc" id="calc">
-                                <option value="">Calculators</option>
-                                <% for(let i = 0; i < calcs.length; i++) { %>
-                                    <option value="<%= calcs[i].id %>;<%= calcs[i].meta_data.url %>;<%= calcs[i].parentapp %>"><%= calcs[i].meta_data.url %></option>
+                        </div>
+                        <div class="col-md-5">
+                            <% if(calcs !== null && calcs.length > 0){ %>
+                                <select class="form-control" name="calc" id="calc">
+                                    <option value="">Calculators</option>
+                                    <% for(let i = 0; i < calcs.length; i++) { %>
+                                        <option value="<%= calcs[i].id %>;<%= calcs[i].meta_data.url %>;<%= calcs[i].parentapp %>">
+                                            <%= calcs[i].meta_data.url %>
+                                        </option>
+                                        <% } %>
+                                </select>
                                 <% } %>
-                            </select>
-                        <% } %>
+                        </div>
+                        <div>
+                            <input type="button" value="Map" class="btn btn-success" id="btnMapGC">
+                        </div>
                     </div>
-                </div>
-                <input type="button" value="Map" class="btn btn-success" id="btnMapGC">
-            </form>
-        </div>
-        <br><br><br><br>
 
-        <form>
-            <div class="row">
-                <div class="col-md-6">
-                    <input class="form-control" placeholder="mailerlite API Key " id="mlkey">
-                </div>
-                <div class="col-md-6">
-                    <input class="form-control" placeholder="outgrow API Key " id="ogkey">
+                </form>
+            </div>
+            <br>
+            <br>
+            <div class="col-md-8 col-md-offset-2">
+                <form>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input class="form-control" placeholder="mailerlite API Key " id="mlkey">
+                        </div>
+                        <div class="col-md-5">
+                            <input class="form-control" placeholder="outgrow API Key " id="ogkey">
+                        </div>
+                        <div>
+                            <input type="button" value="submit" class="btn btn-success" id="changekey">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <br>
+            <br>
+
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table id="mytable" class="table table-bordred table-striped">
+                        <thead>
+                            <tr>
+                                <th bgcolor="#008080">Malerlite Group Id </th>
+                                <th bgcolor="#008080">Malerlite Group Name </th>
+                                <th bgcolor="#FFB6C1">calculator id</th>
+                                <th bgcolor="#FFB6C1">calculator Parent id</th>
+                                <th bgcolor="#FFB6C1">calculator url</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if(linkdata !== null && linkdata.length > 0){ %>
+                                <% for(let i = 0; i < linkdata.length; i++) { %>
+                                    <tr>
+                                        <td>
+                                            <%= linkdata[i].mlgid %>
+                                        </td>
+                                        <td>
+                                            <%= linkdata[i].groupname %>
+                                        </td>
+                                        <td>
+                                            <%= linkdata[i].calcid %>
+                                        </td>
+                                        <td>
+                                            <%= linkdata[i].parentapp %>
+                                        </td>
+                                        <td>
+                                            <%= linkdata[i].url %>
+                                        </td>
+                                        <td>
+                                            <a id="delete" onClick= 'deleteGroupAppLink("<%= linkdata[i]._id %>")'>
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                        <% } %>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <input type="button" value="submit" class="btn btn-success" id="changekey">
-        </form>
-        
-        <div class="col-md-12">
-            <div class="table-responsive">
-                <table id="mytable" class="table table-bordred table-striped">
-                    <thead>
-                        <tr>
-                            <th bgcolor="#008080">Malerlite Group Id </th>
-                            <th bgcolor="#008080" >Malerlite Group Name </th>
-                            <th bgcolor="#FFB6C1">calculater id</th>
-                            <th bgcolor="#FFB6C1">calculater Parent id</th>
-                            <th bgcolor="#FFB6C1">calculater url</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% if(linkdata !== null && linkdata.length > 0){ %>
-                            <% for(let i = 0; i < linkdata.length; i++) { %>
-                                <tr>
-                                    <td><%= linkdata[i].mlgid %></td>
-                                    <td><%= linkdata[i].groupname %></td>
-                                    <td><%= linkdata[i].calcid %></td>
-                                    <td><%= linkdata[i].parentapp %></td>
-                                    <td><%= linkdata[i].url %></td>
-                                </tr>
-                            <% } %>
-                        <% } %>
-                    </tbody>
-                </table>
-            </div>
+
         </div>
     </div>
-</div>

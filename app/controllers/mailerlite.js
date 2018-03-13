@@ -12,7 +12,6 @@ const mailer = {
     index: async (req, res, next) => {
         try {
             let apikey = await apihelper.getapi();
-            console.log("---------------------",apikey)
             let reqs = await request('https://outgrow-api.herokuapp.com/api/v1/calculator?status=LIVE&type=Both&sort=alpha_asc', {
                 method: 'GET',
                 headers: {
@@ -21,7 +20,6 @@ const mailer = {
                 }
             });
             let calc = JSON.parse(reqs.body).data;
-            console.log(JSON.parse(reqs.body).data)
             reqs = await request('https://api.mailerlite.com/api/v2/groups', {
                 method: 'GET',
                 headers: {
@@ -48,8 +46,14 @@ const mailer = {
         try {
             let apikey = await Apikey.findOne({});
             if(apikey) {
-                apikey.mlapikey = req.body.mlapikey;
-                apikey.ogapikey = req.body.ogapikey;
+                if(req.body.mlapikey && req.body.ogapikey) {
+                    apikey.mlapikey = req.body.mlapikey;
+                    apikey.ogapikey = req.body.ogapikey;
+                } else if(req.body.mlapikey) {
+                    apikey.mlapikey = req.body.mlapikey;
+                } else if(req.body.ogapikey) {
+                    apikey.ogapikey = req.body.ogapikey;
+                }
             } else {
                 apikey = new Apikey(req.body);
             }
@@ -63,7 +67,7 @@ const mailer = {
         try {
                 let apikey = await apihelper.getapi();
                 let data = req.body
-                let calcgroup = await Calcgroup.findOne({calcPid:data.calcPid},{mlgid:1})
+                let calcgroup = await Calcgroup.findOne({calcPid:data.calcPid},{mlgid:1});
                 let reqs = await request('https://api.mailerlite.com/api/v2/groups/'+calcgroup.mlgid+'/subscribers', {
                     method: 'POST',
                     headers: {
@@ -76,7 +80,19 @@ const mailer = {
             } catch (error) {
                 console.log(error)
             }
-        }
+        },
+
+        deleteLink: async (req, res, next) => {
+            try {
+                console.log('req.params.id', req.params.id);
+                let remove = await Calcgroup.findOneAndUpdate({ _id: req.params.id }, {
+                    $set: {active: false}
+                });
+                res.status(200).json(remove);
+             } catch (error) {
+                console.log('errrrr', error)
+            }
+        },
 };
 
 module.exports = mailer; 
