@@ -20,7 +20,7 @@ const mailer = {
                     'API-Key': apikey.ogapikey
                 }
             });
-            let calc = JSON.parse(reqs.body).data;
+            let calc = req ? JSON.parse(reqs.body).data : [];
             reqs = await request('https://api.mailerlite.com/api/v2/groups', {
                 method: 'GET',
                 headers: {
@@ -28,10 +28,20 @@ const mailer = {
                     'X-MailerLite-ApiKey': apikey.mlapikey
                 }
             });
+            if(JSON.parse(reqs.body).error) {
+                throw JSON.parse(reqs.body).error;
+            }
             let linkData = await Calcgroup.find({active: true})
-            res.render('pages/index', {groups: JSON.parse(reqs.body), calcs: calc,linkdata:linkData});
+            console.log('********************');
+            console.log(JSON.parse(reqs.body));
+            console.log('********************');
+            console.log(calc);
+            console.log('********************');
+            console.log(linkData);
+            res.render('pages/index', {groups: reqs ? JSON.parse(reqs.body):  [], calcs: calc,linkdata:linkData? linkData: []});
         } catch (error) {
-            console.log(error)
+            console.log('%%%%%%%%%%%%%%55', error);
+            res.render('pages/index', {groups: [], calcs: [],linkdata:[]});
         }
     },
     link: async (req, res, next) => {
