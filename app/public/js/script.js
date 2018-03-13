@@ -26,4 +26,10 @@ $(document).ready(function(){
             console.log('************', data);
         });
     });
+    deleteGroupAppLink = (item) => {
+        console.log('itemmmmmmmmm', item);
+        $.get("http://localhost:3001/deletelink/"+item, function(data) {
+            console.log('data deleted');
+        });
+    }
 });
