@@ -37,9 +37,8 @@ const mailer = {
     link: async (req, res, next) => {
         try {
             let calcgroup = new Calcgroup(req.body);
-            await calcgroup.save();
-            let groups = await Calcgroup.find({active: true});
-            res.status(200).json(groups)
+            let group = await calcgroup.save();
+            res.status(200).json(group);
         } catch (err) {
             console.log(err);
         }
