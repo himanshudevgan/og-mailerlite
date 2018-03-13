@@ -11,6 +11,7 @@ $(document).ready(function(){
 
         $.post("https://og-mailerlite.herokuapp.com/link",{calcid: calcId,mlgid: mlgid, groupname: gname, url: URL,parentapp:parentapp}, function (data){
             $("#btnMapGC").attr('value', 'Map').attr('disabled', false);
+            window.location.reload();
         });
         // $.post("http://localhost:3001/link",{calcid: calcId,mlgid: mlgid, groupname: gname, url: URL,parentapp:parentapp}, function (data){
         //     $("#btnMapGC").attr('value', 'Map').attr('disabled', false);
