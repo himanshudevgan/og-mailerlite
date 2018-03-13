@@ -32,15 +32,8 @@ const mailer = {
                 throw JSON.parse(reqs.body).error;
             }
             let linkData = await Calcgroup.find({active: true})
-            console.log('********************');
-            console.log(JSON.parse(reqs.body));
-            console.log('********************');
-            console.log(calc);
-            console.log('********************');
-            console.log(linkData);
             res.render('pages/index', {groups: reqs ? JSON.parse(reqs.body):  [], calcs: calc,linkdata:linkData? linkData: []});
         } catch (error) {
-            console.log('%%%%%%%%%%%%%%55', error);
             res.render('pages/index', {groups: [], calcs: [],linkdata:[]});
         }
     },
@@ -85,13 +78,14 @@ const mailer = {
                         'content-type': 'application/json',
                         'X-MailerLite-ApiKey': apikey.mlapikey
                     },
-                    data: data.lead
+                    data: data
                 });
                 let logdata = {
-                    request:data,
-                    response:reqs.body
+                    request:JSON.stringify(data),
+                        response:reqs.body
                 }
-                let log = new Log(data);
+                console.log(logdata,"-------")
+                let log = new Log(logdata);
                 await log.save();
                 res.status(200).json(reqs.body);
             } catch (error) {

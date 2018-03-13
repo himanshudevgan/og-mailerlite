@@ -3,19 +3,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Calcgroup = require('./../models/calcgroup');
 const logSchema = new Schema({
-    linkid: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Calcgroup',
-
-    },
+  
     request: {
         type: String,
         required: true,
         
     },
     response: {
-        type: Boolean,
+        type: String,
         default: true
     }  
 },
@@ -23,5 +18,5 @@ const logSchema = new Schema({
     timestamps: true,
     autoIndex: true
 });
-const log = mongoose.model('loggroup', logSchema);
+const log = mongoose.model('Log', logSchema);
 module.exports = log;
