@@ -38,9 +38,8 @@ const mailer = {
     link: async (req, res, next) => {
         try {
             let calcgroup = new Calcgroup(req.body);
-            await calcgroup.save();
-            let groups = await Calcgroup.find({active: true});
-            res.status(200).json(groups)
+            let group = await calcgroup.save();
+            res.status(200).json(group);
         } catch (err) {
             console.log(err);
         }
@@ -65,7 +64,6 @@ const mailer = {
                 let apikey = await apihelper.getapi();
                 let data = req.body
                 let calcgroup = await Calcgroup.findOne({calcPid:data.calcPid},{mlgid:1})
-                console.log(calcgroup)
                 let reqs = await request('https://api.mailerlite.com/api/v2/groups/'+calcgroup.mlgid+'/subscribers', {
                     method: 'POST',
                     headers: {
