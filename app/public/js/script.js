@@ -33,11 +33,13 @@ $(document).ready(function(){
         // });
     });
     deleteGroupAppLink = (item) => {
-        $.get("https://og-mailerlite.herokuapp.com/"+item, function(data) {
-            window.location.reload();
-        });
-        // $.get("http://localhost:3001/deletelink/"+item, function(data) {
+        $("#" + item).html('<i class="fa fa-spinner fa-spin" style="font-size:24px"></i>');
+        $("#" + item).attr('disabled', true);
+        // $.get("https://og-mailerlite.herokuapp.com/"+item, function(data) {
         //     window.location.reload();
         // });
+        $.get("http://localhost:3001/deletelink/"+item, function(data) {
+            window.location.reload();
+        });
     }
 });

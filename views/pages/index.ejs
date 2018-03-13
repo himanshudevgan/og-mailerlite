@@ -66,6 +66,7 @@
                                 <th bgcolor="#FFB6C1">calculator id</th>
                                 <th bgcolor="#FFB6C1">calculator Parent id</th>
                                 <th bgcolor="#FFB6C1">calculator url</th>
+                                <th bgcolor="#FFB6C1">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,9 +89,9 @@
                                             <%= linkdata[i].url %>
                                         </td>
                                         <td>
-                                            <a id="delete" onClick= 'deleteGroupAppLink("<%= linkdata[i]._id %>")'>
+                                            <button class="btn btn-danger" id="<%= linkdata[i]._id %>" onClick= 'deleteGroupAppLink("<%= linkdata[i]._id %>")'>
                                                 <i class="glyphicon glyphicon-trash"></i>
-                                            </a>
+                                            </button>
                                         </td>
                                     </tr>
                                     <% } %>
